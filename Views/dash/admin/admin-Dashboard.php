@@ -39,8 +39,8 @@ if (!isset($_SESSION['email'])) {
         <div class="stats-grid">
             <?php
         // Get user statistics
-        $total_users = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM all_users"));
-        $total_admins = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM all_users WHERE role='admin'"));
+        $total_users = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM all_users WHERE role!='admin'"));
+        // $total_admins = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM all_users WHERE role='admin'"));
         $total_librarians = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM all_users WHERE role='librarian'"));
         $total_students = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM all_users WHERE role='student'"));
 
@@ -427,8 +427,13 @@ if (!isset($_SESSION['email'])) {
     <div id="viewProfile" class="view-profile-container">
         <img
             class="profile-picture"
-            src="../../assets/images/profile-picture.png"
-            alt="Profile Picture"
+            src="../../../assets/images/profile-picture.png"
+            alt="profile picture"
+        />
+        <img
+            class="edit-icon" style=" width: 25px; margin:0 auto; display:block; cursor:pointer;"
+            src="../../../assets/images/edit-user.png"
+            alt="edit profile"
         />
         <p class="profile-name"><?= $_SESSION['name']; ?></p>
         <p class="profile-email"> Gmail: <strong><?= $_SESSION['email']; ?></strong></p>
@@ -625,7 +630,6 @@ if (!isset($_SESSION['email'])) {
         <!-- ... (your existing code for add book modal) ... -->
     </div>
 
-   <!-- <script src="../../../assets/scripts/dash/admin-Dashboard-Script.js"></script> -->
    <script src="../../../assets/scripts/dash/super-Admin-Dashboard-Script.js"></script>
 
  </body>

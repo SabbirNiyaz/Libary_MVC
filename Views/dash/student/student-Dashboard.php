@@ -134,11 +134,42 @@ if (!isset($_SESSION['email'])) {
 
                <!-- View Profile -->
                <div id="viewProfile" class="view-profile-container hidden">
-                  <img
+                  <!-- <img
                      class="profile-picture"
-                     src="../../assets/images/profile-picture.png"
-                     alt=""
+                     src="../../../assets/images/profile-picture.png"
+                     alt="profile picture"
                   />
+                  <img
+                     class="edit-icon" style=" width: 25px; margin:0 auto; display:block; cursor:pointer;"
+                     src="../../../assets/images/edit-user.png"
+                     alt="edit profile"
+                  /> -->
+
+<!-- Profile Picture Display & Upload -->
+<img
+  class="profile-picture"
+  id="profile-picture"
+  src="<?= htmlspecialchars($profile_img_path) ?>"
+  alt=""
+  style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 2px solid #1B56FD;"
+/>
+<label for="profile-picture-input">
+  <img
+    class="edit-icon"
+    style="width: 25px; margin:0 auto; display:block; cursor:pointer;"
+    src="../../../assets/images/edit-user.png"
+    alt="edit profile"
+  />
+</label>
+<input
+  type="file"
+  id="profile-picture-input"
+  accept="image/*"
+  style="display: none;"
+  onchange="uploadProfilePicture(event)"
+/>
+
+
                   <p class="profile-name"><?= $_SESSION['name']; ?></p>
                   <p class="profile-email"> Gmail: <strong><?= $_SESSION['email']; ?></strong></p>
 
@@ -366,6 +397,41 @@ if (!isset($_SESSION['email'])) {
             alert("Requesting book ID: " + bookId + " Done!");
             // Here you would typically make an AJAX request to the server to process the book request.
         }
+    </script>
+
+    <script>
+function uploadProfilePicture(event) {
+    const fileInput = event.target;
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    // Instant preview (optional, not persistent until page reload)
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('profile-picture').src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+
+    // Prepare form data
+    const formData = new FormData();
+    formData.append('profile_picture', file);
+
+    // Send the file to server 
+    fetch('../../../Controllers/upload-profile-picture.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            // For persistent preview after upload, update src
+            document.getElementById('profile-picture').src = "../../../" + data.path;
+            alert("Profile picture updated!");
+        } else {
+            alert("Upload failed! " + (data.error || ""));
+        }
+    });
+}
     </script>
 
    </body>

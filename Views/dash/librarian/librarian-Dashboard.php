@@ -430,8 +430,13 @@ if (!isset($_SESSION['email'])) {
     <div id="viewProfile" class="view-profile-container">
         <img
             class="profile-picture"
-            src="../../assets/images/profile-picture.png"
-            alt="Profile Picture"
+            src="../../../assets/images/profile-picture.png"
+            alt="profile picture"
+        />
+        <img
+            class="edit-icon" style=" width: 25px; margin:0 auto; display:block; cursor:pointer;"
+            src="../../../assets/images/edit-user.png"
+            alt="edit profile"
         />
         <p class="profile-name"><?= $_SESSION['name']; ?></p>
         <p class="profile-email"> Gmail: <strong><?= $_SESSION['email']; ?></strong></p>
